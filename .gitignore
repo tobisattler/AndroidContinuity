@@ -1,22 +1,21 @@
-# Gradle files
-.gradle/
-build/
-
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Log/OS Files
+# === OS Files ===
+.DS_Store
+Thumbs.db
 *.log
 
-# Android Studio generated files and folders
+# === Android / Gradle ===
+.gradle/
+build/
+local.properties
 captures/
 .externalNativeBuild/
 .cxx/
 *.aab
 *.apk
 output-metadata.json
+*.hprof
 
-# IntelliJ
+# Android Studio / IntelliJ
 *.iml
 .idea/
 misc.xml
@@ -27,8 +26,24 @@ render.experimental.xml
 *.jks
 *.keystore
 
-# Google Services (e.g. APIs or Firebase)
+# Google Services
 google-services.json
 
-# Android Profiling
-*.hprof
+# === macOS / Swift ===
+.build/
+.swiftpm/
+DerivedData/
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+*.playground/
+Package.resolved
+
+# === Generated code (re-generated via `make proto-gen`) ===
+macos/AndroidContinuity/Sources/Generated/
+android/app/src/main/proto/continuity/
+
+# === Secrets / Certs ===
+*.pem
+*.p12
+*.cer
