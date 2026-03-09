@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package continuity.v1;
+
+import "continuity/v1/common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.androidcontinuity.proto";
+option java_outer_classname = "PairingProto";
+option swift_prefix = "AC";
+
+service PairingService {
+  rpc RequestPairing(PairingRequest) returns (PairingChallenge);
+  rpc CompletePairing(PairingChallengeResponse) returns (PairingResult);
+  rpc VerifySession(SessionVerification) returns (SessionVerificationResult);
+  rpc RevokePairing(RevokePairingRequest) returns (RevokePairingResponse);
+}
+
+message PairingRequest {
+  DeviceInfo device_info = 1;
+  bytes client_certificate = 2;
+}
+
+message PairingChallenge {
+  PairingChallengeType challenge_type = 1;
+  bytes challenge_nonce = 2;
+  string session_token = 3;
+  bytes server_certificate = 4;
+  string verification_code = 5;
+}
+
+enum PairingChallengeType {
+  PAIRING_CHALLENGE_TYPE_UNSPECIFIED = 0;
+  PAIRING_CHALLENGE_TYPE_ALREADY_TRUSTED = 1;
+  PAIRING_CHALLENGE_TYPE_NEW_DEVICE = 2;
+  PAIRING_CHALLENGE_TYPE_DENIED = 3;
+}
+
+message PairingChallengeResponse {
+  string device_id = 1;
+  bytes signed_challenge = 2;
+  string verification_code = 3;
+}
+
+message PairingResult {
+  StatusCode status = 1;
+  string session_token = 2;
+  int64 token_ttl_seconds = 3;
+  string message = 4;
+  TrustLevel trust_level = 5;
+}
+
+enum TrustLevel {
+  TRUST_LEVEL_UNSPECIFIED = 0;
+  TRUST_LEVEL_ONCE = 1;
+  TRUST_LEVEL_ALWAYS = 2;
+}
+
+message SessionVerification {
+  string device_id = 1;
+  string session_token = 2;
+}
+
+message SessionVerificationResult {
+  bool valid = 1;
+  StatusCode status = 2;
+  string message = 3;
+}
+
+message RevokePairingRequest {
+  string device_id = 1;
+  string session_token = 2;
+}
+
+message RevokePairingResponse {
+  StatusCode status = 1;
+}

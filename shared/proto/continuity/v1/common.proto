@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package continuity.v1;
+
+option java_multiple_files = true;
+option java_package = "com.androidcontinuity.proto";
+option java_outer_classname = "CommonProto";
+option swift_prefix = "AC";
+
+message ProtocolVersion {
+  uint32 major = 1;
+  uint32 minor = 2;
+}
+
+message DeviceInfo {
+  string device_id = 1;
+  string device_name = 2;
+  DeviceType device_type = 3;
+  string app_version = 4;
+  ProtocolVersion protocol_version = 5;
+  map<string, string> metadata = 15;
+}
+
+enum DeviceType {
+  DEVICE_TYPE_UNSPECIFIED = 0;
+  DEVICE_TYPE_ANDROID = 1;
+  DEVICE_TYPE_MACOS = 2;
+}
+
+message FileMetadata {
+  string file_id = 1;
+  string file_name = 2;
+  string mime_type = 3;
+  int64 file_size = 4;
+  bytes checksum_sha256 = 5;
+  int64 created_at_millis = 6;
+  map<string, string> metadata = 15;
+}
+
+enum StatusCode {
+  STATUS_CODE_UNSPECIFIED = 0;
+  STATUS_CODE_OK = 1;
+  STATUS_CODE_ERROR = 2;
+  STATUS_CODE_REJECTED = 3;
+  STATUS_CODE_TIMEOUT = 4;
+  STATUS_CODE_CANCELLED = 5;
+}
